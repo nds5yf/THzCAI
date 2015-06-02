@@ -1,0 +1,1 @@
+I turned off the projector before this trial to allow the silica to cool.
