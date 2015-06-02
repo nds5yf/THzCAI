@@ -64,7 +64,7 @@ while(cont):
     else:
         directory = str(int(directory) + 1)
         
-    os.chdir("../8_lit (9)")   #CHANGE 
+    os.chdir("..")   #CHANGE 
     os.chdir(directory)
     
     matrix += 1
