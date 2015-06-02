@@ -3,6 +3,8 @@
 #THzCAI
 #02 June 2015
 
+#The code for connecting to the ZVA and the ESP300 was adapted from the 
+# work of Alex Arsenovic
 from stages import *
 import os
 import skrf as rf
