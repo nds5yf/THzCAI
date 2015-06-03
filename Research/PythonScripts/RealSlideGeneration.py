@@ -5,7 +5,12 @@
 #03 June 2015
 
 import math
+<<<<<<< HEAD
 from PIL import Image, ImageDraw
+=======
+from PIL import Image, ImageFont, ImageDraw
+import os
+>>>>>>> 1710e863d144200f09578edff121168bbfedcfe8
 import time
 import os
 import subprocess
