@@ -12,21 +12,19 @@ import pyvisa
 from skrf.vi import vna
 import time as time
 from PIL import Image, ImageDraw
-from scipy import misc
-import matplotlib.pyplot as plt
 
 #Assumes ZVA Monitor
-#my_vna=vna.ZVA40(address=20)
+my_vna=vna.ZVA40(address=20)
 
-#Generate binary combinations
 x = input("Input the matrix dimension: ")
 area = x * x
 size = math.pow(2, area)
-#esp= ESP300()
-#esp.current_axis=1
-#esp.units= 'millimeter'
 
+esp= ESP300()
+esp.current_axis=1
+esp.units= 'millimeter'
 
+#Generate binary combinations
 bn = '{0:0' + str(area) + 'b}'
 
 top = 0
@@ -48,7 +46,7 @@ counter = 0
 for i in range(0, int(size)):
     image = Image.new("RGB", (canvasSize, canvasSize), white)
     draw = ImageDraw.Draw(image)
-    combo = li[i]
+    combo = li[3]
     xloc = 0
     yloc = 0
     for j in range(0, area):
@@ -62,18 +60,15 @@ for i in range(0, int(size)):
             counter = 0
             xloc = 0
             yloc += canvasSize/x        
-    image.save("mask.jpg")
+  
+    image.save("mask.png")
     del image
-
-    l = misc.lena()
-    mask = misc.imread('mask.jpg')
-    misc.imshow(l)
-    time.sleep(1)
-
-
     
+    os.startfile('mask.PNG')
+    time.sleep(0.5)
+
     #Creates files and saves data
-'''
+
     os.makedirs(str(i))
     os.chdir(str(i))
 
@@ -108,4 +103,5 @@ for i in range(0, int(size)):
     time.sleep(0.5)
 
     os.chdir("..")
-    '''
+    
+    os.system("taskkill /im dllhost.exe")
