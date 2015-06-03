@@ -2,15 +2,16 @@
 #Michael Eller mbe9a
 #Noah Sauber nds5yf
 #THzCAI
-#02 June 2015
+#03 June 2015
 
 import math
-from Tkinter import *
-from PIL import Image, ImageFont, ImageDraw
-import os
+from PIL import Image, ImageDraw
 import time
+import os
+import subprocess
 
-#Generate binary combinations
+#Generate binary combinations: all representations of an NxN matrix
+# represented as a binary string in the list 'li'
 x = input("input the matrix dimension: ")
 area = x * x
 size = math.pow(2, area)
@@ -27,8 +28,8 @@ while top < size:
     li.append(mask)
     top = top + 1
 
-#main loop: black (represented by a 0) recatngles are drawn in wrap-around
-#fashion onto an image and then saved locally
+#main loop: black (represented by a 0) rectangles are drawn in wrap-around
+# fashion onto an image (with a white background) and then saved locally
 
 white = (255, 255, 255)
 counter = 0
@@ -50,6 +51,9 @@ for i in range(0, int(size)):
             counter = 0
             xloc = 0
             yloc += canvasSize/x        
-    image.save("mask.jpg")
-    #time.sleep(3)
+    image.save('mask.jpg')
+    os.startfile('mask.jpg')
+    time.sleep(5)
+    os.system("taskkill /im dllhost.exe")
     del image
+    
