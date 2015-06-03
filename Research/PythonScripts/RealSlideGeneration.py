@@ -34,7 +34,7 @@ w = Canvas(master, width = canvasSize, height = canvasSize)
 w.pack()
 w.create_rectangle(0, 0, canvasSize, canvasSize, fill="white")
 
-tempy = 0
+counter = 0
 
 #main Loop
 
@@ -45,15 +45,13 @@ for i in range(0, int(size)):
     xloc1 = 0
     yloc1 = 0
     for j in range(0, area):
-        tempy +=1
+        counter +=1
         if combo[j] == '0':
             color = 'black'
-        else:
-            color = 'white' 
-        w.create_rectangle(xloc1, yloc1, xloc1 + canvasSize/x, yloc1 + canvasSize/x, fill=color)    
+            w.create_rectangle(xloc1, yloc1, xloc1 + canvasSize/x, yloc1 + canvasSize/x, fill=color)    
         xloc1 += canvasSize/x 
-        if tempy == x:
-            tempy = 0
+        if counter == x:
+            counter = 0
             xloc1 = 0
             yloc1 += canvasSize/x        
 
