@@ -26,7 +26,7 @@ while top < size:
     
     mask = bn.format(top)
     li.append(mask)
-    top = top + 1
+    top += 1
 
 #main loop: black (represented by a 0) rectangles are drawn in wrap-around
 # fashion onto an image (with a white background) and then saved locally
@@ -53,7 +53,7 @@ for i in range(0, int(size)):
             yloc += canvasSize/x        
     image.save('mask.PNG')
     os.startfile('mask.PNG')
-    time.sleep(5)
+    time.sleep(1)
     os.system("taskkill /im dllhost.exe")
     del image
     
