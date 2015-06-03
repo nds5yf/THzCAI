@@ -5,7 +5,6 @@
 #02 June 2015
 
 import math
-from Tkinter import *
 from PIL import Image, ImageFont, ImageDraw
 import os
 import time

@@ -1,4 +1,8 @@
 #Automation for Data Collection
+#Noah Sauber nds5yf
+#Michael Eller mbe9a
+#THzCAI
+#03 June 2015
 from stages import *
 import os
 import skrf as rf
