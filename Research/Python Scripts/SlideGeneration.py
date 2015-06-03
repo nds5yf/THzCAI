@@ -6,6 +6,7 @@
 
 import math
 from Tkinter import *
+import time
 
 x = input("Input the matrix dimension: ")
 
@@ -31,12 +32,14 @@ while top < size:
 
 w = Canvas(master, width = canvasSize, height = canvasSize)
 w.pack()
-w.create_rectangle(0, 0, canvasSize, canvasSize, fill="white")
 
 #Paints cells to white or black
 for i in range(0, int(size)):
+    w.delete("all")
+    w.create_rectangle(0, 0, canvasSize, canvasSize, fill="white")
     p = li[i]
-    color = "black"      
+    color = "black" 
+        
     for j in range (0, area):
         if p[j] == "0":
             color = "black"
@@ -48,5 +51,5 @@ for i in range(0, int(size)):
             if j >= t*x:
                 he = t            
         w.create_rectangle(wi*sqw,he*sqh,(wi*sqw)+sqw,(he*sqh)+sqh,fill=color)
-  
+    #time.sleep(10) 
 mainloop()
