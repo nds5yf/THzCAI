@@ -6,10 +6,9 @@
 
 import math
 from Tkinter import *
-from collections import namedtuple
-
-myStruct = namedtuple("myStruct", "field1 field2")
-
+from PIL import Image, ImageFont, ImageDraw
+import os
+import time
 
 #Generate binary combinations
 x = input("input the matrix dimension: ")
@@ -20,7 +19,7 @@ bn = '{0:0' + str(area) + 'b}'
 
 top = 0
 li = []
-canvasSize = 1200
+canvasSize = 900
 
 while top < size:
     
@@ -28,31 +27,29 @@ while top < size:
     li.append(mask)
     top = top + 1
 
-master = Tk()
+#main loop: black (represented by a 0) recatngles are drawn in wrap-around
+#fashion onto an image and then saved locally
 
-w = Canvas(master, width = canvasSize, height = canvasSize)
-w.pack()
-w.create_rectangle(0, 0, canvasSize, canvasSize, fill="white")
-
+white = (255, 255, 255)
 counter = 0
 
-#main Loop
-
 for i in range(0, int(size)):
-    w.delete("all")
-    w.create_rectangle(0, 0, canvasSize, canvasSize, fill="white")
+    image = Image.new("RGB", (canvasSize, canvasSize), white)
+    draw = ImageDraw.Draw(image)
     combo = li[i]
-    xloc1 = 0
-    yloc1 = 0
+    xloc = 0
+    yloc = 0
     for j in range(0, area):
-        counter +=1
+        counter += 1
         if combo[j] == '0':
-            color = 'black'
-            w.create_rectangle(xloc1, yloc1, xloc1 + canvasSize/x, yloc1 + canvasSize/x, fill=color)    
-        xloc1 += canvasSize/x 
+            draw.rectangle(((xloc, yloc), 
+                (xloc + canvasSize/x, yloc + canvasSize/x)), 
+                fill='black', outline='black')    
+        xloc += canvasSize/x 
         if counter == x:
             counter = 0
-            xloc1 = 0
-            yloc1 += canvasSize/x        
-
-mainloop()
+            xloc = 0
+            yloc += canvasSize/x        
+    image.save("mask.jpg")
+    #time.sleep(3)
+    del image
