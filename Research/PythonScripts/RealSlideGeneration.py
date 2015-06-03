@@ -5,12 +5,7 @@
 #03 June 2015
 
 import math
-<<<<<<< HEAD
 from PIL import Image, ImageDraw
-=======
-from PIL import Image, ImageFont, ImageDraw
-import os
->>>>>>> 1710e863d144200f09578edff121168bbfedcfe8
 import time
 import os
 import subprocess
@@ -56,8 +51,8 @@ for i in range(0, int(size)):
             counter = 0
             xloc = 0
             yloc += canvasSize/x        
-    image.save('mask.jpg')
-    os.startfile('mask.jpg')
+    image.save('mask.PNG')
+    os.startfile('mask.PNG')
     time.sleep(5)
     os.system("taskkill /im dllhost.exe")
     del image
