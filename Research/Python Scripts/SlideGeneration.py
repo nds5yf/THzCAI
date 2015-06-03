@@ -6,7 +6,6 @@
 
 import math
 from Tkinter import *
-from collections import namedtuple
 
 x = input("Input the matrix dimension: ")
 
