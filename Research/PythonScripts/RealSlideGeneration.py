@@ -53,7 +53,7 @@ for i in range(0, int(size)):
             yloc += canvasSize/x        
     image.save('mask.PNG')
     os.startfile('mask.PNG')
-    time.sleep(1)
+    time.sleep(5)
     os.system("taskkill /im dllhost.exe")
     del image
     
