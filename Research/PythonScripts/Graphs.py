@@ -1,20 +1,18 @@
-#from os.path import join 
+#Automation for Matrix Generation
+#Michael Eller mbe9a
+#Noah Sauber nds5yf
+#THzCAI
+#04 June 2015
+
 import skrf as rf
 from skrf import micron
-#import pylab
-import matplotlib.pyplot
+import pylab
 from matplotlib.pyplot import *
 
-## input 
-dir ='temp' 
-write_caled_duts= True
+fileLocation = input("Input the path containing the data files (in quotations!): ")
 
+dir = fileLocation
 substrate_thickness = 430e-6 # needed to re-embed measurements to reference plane
-
-###
-## my_vna.s11.write_touchstone('pl')
-
-
 
 delta = 40*micron
 raw= rf.lat(dir)
@@ -48,3 +46,5 @@ for ideal_ntwk, caled_ntwk in zip(cal.ideals, cal.caled_ntwks):
 
 ylim(-20,20);
 title('Delay Shorts De-trended Phase (Port 1)');
+
+pylab.show()
