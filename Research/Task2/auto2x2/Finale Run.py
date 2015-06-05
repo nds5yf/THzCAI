@@ -101,6 +101,9 @@ for i in range(0, int(size)):
     time.sleep(0.75)
     my_vna.s11.write_touchstone('ds,5')
     time.sleep(0.5)
+    
+    esp.position = 0
+    time.sleep(1)
 
     os.chdir("..")
     
