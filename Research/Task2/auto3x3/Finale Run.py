@@ -46,7 +46,7 @@ counter = 0
 for i in range(0, int(size)):
     image = Image.new("RGB", (canvasSize, canvasSize), white)
     draw = ImageDraw.Draw(image)
-    combo = li[i]
+    combo = li[3]
     xloc = 0
     yloc = 0
     for j in range(0, area):
@@ -61,11 +61,11 @@ for i in range(0, int(size)):
             xloc = 0
             yloc += canvasSize/x        
   
-    image.save("mask.PNG")
+    image.save("mask.png")
     del image
     
     os.startfile('mask.PNG')
-    time.sleep(5)
+    time.sleep(0.5)
 
     #Creates files and saves data
 
@@ -98,12 +98,9 @@ for i in range(0, int(size)):
     time.sleep(0.75)
     
     esp.position = -0.20
-    time.sleep(0.5)
-    my_vna.s11.write_touchstone('ds,5')
     time.sleep(0.75)
-    
-    esp.position = 0
-    time.sleep(1)
+    my_vna.s11.write_touchstone('ds,5')
+    time.sleep(0.5)
 
     os.chdir("..")
     

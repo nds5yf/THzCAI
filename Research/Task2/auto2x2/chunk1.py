@@ -1,7 +1,8 @@
+from os.path import join 
 import skrf as rf
 from skrf import micron
 import pylab
-from matplotlib.pyplot import *
+import matplotlib.pyplot
 
 ## input 
 dir ='temp1' 
@@ -24,7 +25,6 @@ ideals = [ air.delay_short(k*delta, name='ds,%i'%k) for k in range(6)] +\
          [air.match(name = 'pl')]
 cal = rf.Calibration(measured = raw.values(), ideals = ideals, sloppy_input=True)
 
-figure()
 rf.NS(cal.caled_ntwks).plot_s_smith(marker ='.', ls='');
 title('Bingo Baby!')
 rf.legend_off()
@@ -46,5 +46,3 @@ for ideal_ntwk, caled_ntwk in zip(cal.ideals, cal.caled_ntwks):
 
 ylim(-20,20);
 title('Delay Shorts De-trended Phase (Port 1)');
-
-pylab.show()
