@@ -105,6 +105,7 @@ for i in range(0, int(size)):
     esp.position = 0
     time.sleep(1)
 
+    esp.position = 0
     os.chdir("..")
     
     os.system("taskkill /im dllhost.exe")

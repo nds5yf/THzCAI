@@ -1,26 +1,18 @@
-<<<<<<< HEAD
+#Automation for Matrix Generation
+#Michael Eller mbe9a
+#Noah Sauber nds5yf
+#THzCAI
+#04 June 2015
+
 import skrf as rf
 from skrf import micron
 import pylab
-=======
-#from os.path import join 
-import skrf as rf
-from skrf import micron
-#import pylab
-import matplotlib.pyplot
->>>>>>> 0ce0929960070d59ee18ba1fa5593d53b0397851
 from matplotlib.pyplot import *
 
-## input 
-dir ='temp' 
-write_caled_duts= True
+fileLocation = input("Input the path containing the data files (in quotations!): ")
 
+dir = fileLocation
 substrate_thickness = 430e-6 # needed to re-embed measurements to reference plane
-
-###
-## my_vna.s11.write_touchstone('pl')
-
-
 
 delta = 40*micron
 raw= rf.lat(dir)
