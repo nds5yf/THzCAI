@@ -16,15 +16,17 @@ from PIL import Image, ImageDraw
 #Assumes ZVA Monitor
 my_vna=vna.ZVA40(address=20)
 
-x = input("Input the matrix dimension: ")
-area = x * x
-size = math.pow(2, area)
-
+   
+#Initialize ESP300 
 esp= ESP300()
 esp.current_axis=1
 esp.units= 'millimeter'
 
-#Generate binary combinations
+x = input("Input the matrix dimension: ")
+area = x * x
+size = math.pow(2, area)
+
+#Generate binary combinations of masks
 bn = '{0:0' + str(area) + 'b}'
 
 top = 0
@@ -43,7 +45,8 @@ while top < size:
 white = (255, 255, 255)
 counter = 0
 
-for i in range(0, int(size)):
+for i in range(484, int(size)):
+
     image = Image.new("RGB", (canvasSize, canvasSize), white)
     draw = ImageDraw.Draw(image)
     combo = li[i]
@@ -62,6 +65,7 @@ for i in range(0, int(size)):
             yloc += canvasSize/x        
   
     image.save("mask.PNG")
+    time.sleep(0.5)
     del image
     
     os.startfile('mask.PNG')
@@ -75,32 +79,32 @@ for i in range(0, int(size)):
     esp.position = 0
     time.sleep(0.5)
     my_vna.s11.write_touchstone('ds,0')
-    time.sleep(0.75)
+    time.sleep(1)
     
     esp.position = -0.04
     time.sleep(0.5)
     my_vna.s11.write_touchstone('ds,1')
-    time.sleep(0.75)
+    time.sleep(1)
 
     esp.position = -0.08
     time.sleep(0.5)
     my_vna.s11.write_touchstone('ds,2')
-    time.sleep(0.75)
+    time.sleep(1)
     
     esp.position = -0.12
     time.sleep(0.5)
     my_vna.s11.write_touchstone('ds,3')
-    time.sleep(0.75)
+    time.sleep(1)
     
     esp.position = -0.16
     time.sleep(0.5) 
     my_vna.s11.write_touchstone('ds,4')
-    time.sleep(0.75)
+    time.sleep(1)
     
     esp.position = -0.20
     time.sleep(0.5)
     my_vna.s11.write_touchstone('ds,5')
-    time.sleep(0.75)
+    time.sleep(1)
     
     esp.position = 0
     time.sleep(1)
