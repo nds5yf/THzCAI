@@ -1,18 +1,15 @@
-<<<<<<< HEAD
 import skrf as rf
 from skrf import micron
 import pylab
-=======
 #from os.path import join 
 import skrf as rf
 from skrf import micron
 #import pylab
 import matplotlib.pyplot
->>>>>>> 0ce0929960070d59ee18ba1fa5593d53b0397851
 from matplotlib.pyplot import *
 
 ## input 
-dir ='temp' 
+dir ='135' 
 write_caled_duts= True
 
 substrate_thickness = 430e-6 # needed to re-embed measurements to reference plane

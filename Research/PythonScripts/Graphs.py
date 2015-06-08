@@ -5,46 +5,73 @@
 #04 June 2015
 
 import skrf as rf
+import os, os.path
 from skrf import micron
 import pylab
 from matplotlib.pyplot import *
 
-fileLocation = input("Input the path containing the data files (in quotations!): ")
+dir1 = 'auto2x2'
 
-dir = fileLocation
-substrate_thickness = 430e-6 # needed to re-embed measurements to reference plane
+folders = os.listdir(dir1)
 
-delta = 40*micron
-raw= rf.lat(dir)
+os.chdir(dir1)
 
-freq = raw.values()[0].frequency
-air = rf.media.Freespace(frequency = freq, z0=50)
+for x in range(0, len(folders)):
+    
+    DIR = folders[x]
+    
+    substrate_thickness = 430e-6 # needed to re-embed measurements to reference plane
 
-ideals = [ air.delay_short(k*delta, name='ds,%i'%k) for k in range(6)] +\
-         [air.match(name = 'pl')]
-cal = rf.Calibration(measured = raw.values(), ideals = ideals, sloppy_input=True)
+    delta = 40*micron
+    raw= rf.lat(DIR)
 
-figure()
-rf.NS(cal.caled_ntwks).plot_s_smith(marker ='.', ls='');
-title('Bingo Baby!')
-rf.legend_off()
+    freq = raw.values()[0].frequency
+    air = rf.media.Freespace(frequency = freq, z0=50)
 
-figure()
-title('Delay Shorts Magnitude')
-rf.NS(cal.caled_ntwks).plot_s_db();
-ylim(-1,1)
+    ideals = [ air.delay_short(k*delta, name='ds,%i'%k) for k in range(6)] +\
+    [air.match(name = 'pl')]
+    #^^^ for pl.s1p
+    cal = rf.Calibration(measured = raw.values(), ideals = ideals, sloppy_input=True)
 
-figure()
-title('Calibration Standards Magnitude')
-rf.NS(cal.caled_ntwks[::-1]).plot_s_db();
-ylim(-60,10)
+    figure()
+    rf.NS(cal.caled_ntwks).plot_s_smith(marker ='.', ls='');
+    title('Bingo Baby!')
+    rf.legend_off()
+    os.chdir(DIR)
+    pylab.savefig('figure1.PNG')
+    os.chdir('..')
+    pylab.close()
 
-figure()
-for ideal_ntwk, caled_ntwk in zip(cal.ideals, cal.caled_ntwks):
-    if 'ds' in caled_ntwk.name:
-        (caled_ntwk/ideal_ntwk).plot_s_deg(0,0)
+'''
+    figure()
+    title('Delay Shorts Magnitude')
+    rf.NS(cal.caled_ntwks).plot_s_db();
+    ylim(-1,1)
+    os.chdir(DIR)
+    pylab.savefig('figure2.PNG')
+    os.chdir('..')
+    pylab.close()
 
-ylim(-20,20);
-title('Delay Shorts De-trended Phase (Port 1)');
+    figure()
+    title('Calibration Standards Magnitude')
+    rf.NS(cal.caled_ntwks[::-1]).plot_s_db();
+    ylim(-60,10)
+    os.chdir(DIR)
+    pylab.savefig('figure3.PNG')
+    os.chdir('..')
+    pylab.close()
 
-pylab.show()
+    figure()
+    for ideal_ntwk, caled_ntwk in zip(cal.ideals, cal.caled_ntwks):
+        if 'ds' in caled_ntwk.name:
+            (caled_ntwk/ideal_ntwk).plot_s_deg(0,0)
+
+    ylim(-20,20);
+    title('Delay Shorts De-trended Phase (Port 1)');
+    os.chdir(DIR)
+    pylab.savefig('figure4.PNG')
+    os.chdir('..')
+    pylab.close()
+'''
+    #pylab.show()
+os.chdir('..')
