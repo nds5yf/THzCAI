@@ -10,7 +10,9 @@ from skrf import micron
 import pylab
 from matplotlib.pyplot import *
 
-dir1 = 'auto2x2'
+#this code may be taxing on your CPU if there ae a lot of data folders
+
+dir1 = 'auto3x3'
 
 folders = os.listdir(dir1)
 
@@ -28,9 +30,8 @@ for x in range(0, len(folders)):
     freq = raw.values()[0].frequency
     air = rf.media.Freespace(frequency = freq, z0=50)
 
-    ideals = [ air.delay_short(k*delta, name='ds,%i'%k) for k in range(6)] +\
-    [air.match(name = 'pl')]
-    #^^^ for pl.s1p
+    ideals = [ air.delay_short(k*delta, name='ds,%i'%k) for k in range(6)]
+     #+[air.match(name = 'pl')] #add for pl files
     cal = rf.Calibration(measured = raw.values(), ideals = ideals, sloppy_input=True)
 
     figure()
@@ -75,3 +76,5 @@ for x in range(0, len(folders)):
 '''
     #pylab.show()
 os.chdir('..')
+
+#throws an error at the end for some reason
