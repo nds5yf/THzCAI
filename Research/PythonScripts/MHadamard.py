@@ -1,37 +1,14 @@
 #Automation for Matrix Generation
 #Michael Eller mbe9a
+#Noah Sauber nds5yf
 #THzCAI
 #09 June 2015
 
 import math
 
-'''        
-x = input ("Input: ")
-print modCheck(x)
-'''
-
-'''
-#Generate binary combinations: all representations of an NxN matrix
-# represented as a binary string in the list 'li'
-x = input("input the matrix dimension: ")
-area = x * x
-size = math.pow(2, area)
-
-bn = '{0:0' + str(area) + 'b}'
-
-top = 0
-li = []
-canvasSize = 900
-
-while top < size:
-    
-    mask = bn.format(top)
-    li.append(mask)
-    top += 1
-'''
-
 #checks if the number is a power of 2
 #required for Hadamard matrices
+#not even necessary but I'm keeping this method because I don't wnat to delete it
 def modCheck(n):
     x = n
     if n == 0:
@@ -65,10 +42,14 @@ def inverse(s):
     return string
    
 #rotating the h matrix to create the different combos 
-def shift(s):
-    x = len(s)/4
-    l = len(s)
-    string = s[l - x:] + s[:l - x]
+#'s' is the string to shift, 'n' is how many times
+def shift(s, n):
+    temp = s
+    for i in range(0, n):
+        x = len(temp)/4
+        l = len(temp)
+        string = temp[l - x:] + temp[:l - x]
+        temp = string
     return string
 
 #create Hadamard matrices
@@ -79,30 +60,63 @@ def hadamard(n, o, rlist):
     if n == 0:
         return rlist
     
-    rlist.append(o)
-    rlist.append(shift(o))
-    rlist.append(shift(shift(o)))
-    rlist.append(shift(shift(shift(o))))
+    if len(rlist) < 1:
+        rlist.append(o)
+        rlist.append(shift(o, 1))
+        rlist.append(shift(o, 2))
+        rlist.append(shift(o, 3))
     
-    s = o
-    s += o
-    s += o
-    s += inverse(o)
+    else:
+        rlist.append(o)
+        rlist.append(shift(o, 1))
+        rlist.append(shift(o, 2))
+        rlist.append(shift(o, 3))
     
-    temp = rlist
-    for x in range(0, len(rlist)):
-        l = len(rlist[len(rlist) - 1])
-        if rlist[x] < l:
-            temp.remove(x)
-            
-    rlist = temp
-    
+    s = ""   
+    for i in range(0, len(rlist)):               
+        s += rlist[i]
+        s += rlist[i]
+        s += rlist[i]
+        s += inverse(rlist[i])
+        
     rlist = hadamard(n - 1, s, rlist)
     
+    #delete all combos that are not MxM
+    counter = 0
+    for x in range(0, len(rlist)):
+        l = len(rlist[len(rlist) - 1])
+        if len(rlist[x]) < l:
+               counter += 1 
+    del rlist[0:counter]
+    
+    if len(rlist[0]) > 4:
+        temp = []
+        for j in range(0, len(rlist)):
+            temp.append(rlist[j][0:len(rlist[j])/4])
+            temp.append(rlist[j][len(rlist[j])/4:len(rlist[j])/2])
+            temp.append(rlist[j][len(rlist[j])/2:3*len(rlist[j])/4])
+            temp.append(rlist[j][3*len(rlist[j])/4:len(rlist[j])])
+        rlist = temp
+    
+    #YODO: fix this
+    '''
+    temp2 = []
+    x = 1
+    for y in range(0, len(rlist)):
+        s = ""
+        s += rlist[y]
+        s += rlist[y+1]
+        s += rlist[y+2]
+        s += rlist[y+3]
+        temp2.append(s)
+        y += 4
+    #rlist = temp2
+    '''
     return rlist
     
-print hadamard(1, '0001', [])
-     
+print hadamard(2, '0001', [])
+print len(hadamard(2, '0001', []))
+#print shift('0001',3)    
      
      
      
