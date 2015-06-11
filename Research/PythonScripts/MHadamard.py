@@ -73,11 +73,13 @@ def hadamard(n, o, rlist):
         rlist.append(shift(o, 3))
     
     s = ""   
-    for i in range(0, len(rlist)):               
+    for i in range(0, len(rlist)):  
+        s = ""             
         s += rlist[i]
         s += rlist[i]
         s += rlist[i]
         s += inverse(rlist[i])
+        rlist.append(s)
         
     rlist = hadamard(n - 1, s, rlist)
     
@@ -89,34 +91,11 @@ def hadamard(n, o, rlist):
                counter += 1 
     del rlist[0:counter]
     
-    if len(rlist[0]) > 4:
-        temp = []
-        for j in range(0, len(rlist)):
-            temp.append(rlist[j][0:len(rlist[j])/4])
-            temp.append(rlist[j][len(rlist[j])/4:len(rlist[j])/2])
-            temp.append(rlist[j][len(rlist[j])/2:3*len(rlist[j])/4])
-            temp.append(rlist[j][3*len(rlist[j])/4:len(rlist[j])])
-        rlist = temp
-    
-    #YODO: fix this
-    '''
-    temp2 = []
-    x = 1
-    for y in range(0, len(rlist)):
-        s = ""
-        s += rlist[y]
-        s += rlist[y+1]
-        s += rlist[y+2]
-        s += rlist[y+3]
-        temp2.append(s)
-        y += 4
-    #rlist = temp2
-    '''
     return rlist
     
-print hadamard(2, '0001', [])
-print len(hadamard(2, '0001', []))
-#print shift('0001',3)    
+x = input("input: ")
+print hadamard(x, '0001', [])
+print len(hadamard(x, '0001', []))  
      
      
      
