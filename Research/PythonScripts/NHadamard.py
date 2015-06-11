@@ -144,5 +144,5 @@ def hadamard(n, o, m, rlist):
     
     return rlist
     
-print hadamard(3, '0001', 4, [])
+print hadamard(2, '0001', 3, [])
        
