@@ -5,6 +5,9 @@
 #09 June 2015
 
 import math
+from PIL import Image, ImageDraw
+import os
+import subprocess
 
 #checks if the number is a power of 2
 #required for Hadamard matrices
@@ -59,30 +62,44 @@ def hadamard(n, o, rlist):
     
     if n == 0:
         return rlist
-    
-    if len(rlist) < 1:
-        rlist.append(o)
-        rlist.append(shift(o, 1))
-        rlist.append(shift(o, 2))
-        rlist.append(shift(o, 3))
-    
-    else:
-        rlist.append(o)
-        rlist.append(shift(o, 1))
-        rlist.append(shift(o, 2))
-        rlist.append(shift(o, 3))
-    
-    s = ""
-    k = len(rlist)   
-    for i in range(0, k):  
-        s = ""             
-        s += rlist[i]
-        s += rlist[i]
-        s += rlist[i]
-        s += inverse(rlist[i])
-        rlist.append(s)
         
+        
+    rlist.append(o)
+    s = ""
+    s += o
+    s += o
+    s += o
+    s += inverse(o)
     rlist = hadamard(n - 1, s, rlist)
+    
+    o = shift(o, 1)
+    rlist.append(o)
+    s = ""
+    s += o
+    s += o
+    s += o
+    s += inverse(o)
+    rlist = hadamard(n - 1, s, rlist)
+    
+    o = shift(o, 2)
+    rlist.append(o)
+    s = ""
+    s += o
+    s += o
+    s += o
+    s += inverse(o)
+    rlist = hadamard(n - 1, s, rlist)
+    
+    o = shift(o, 3)
+    rlist.append(o)
+    s = ""
+    s += o
+    s += o
+    s += o
+    s += inverse(o)
+    rlist = hadamard(n - 1, s, rlist)
+    
+    rlist.sort(key = len)
     
     #delete all combos that are not MxM
     counter = 0
@@ -94,10 +111,8 @@ def hadamard(n, o, rlist):
     
     return rlist
     
-x = input("input: ")
-print hadamard(x, '0001', [])
-print len(hadamard(x, '0001', []))  
+  
      
      
-     
+
      
