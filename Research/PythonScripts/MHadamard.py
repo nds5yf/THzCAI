@@ -72,8 +72,9 @@ def hadamard(n, o, rlist):
         rlist.append(shift(o, 2))
         rlist.append(shift(o, 3))
     
-    s = ""   
-    for i in range(0, len(rlist)):  
+    s = ""
+    k = len(rlist)   
+    for i in range(0, k):  
         s = ""             
         s += rlist[i]
         s += rlist[i]
