@@ -4,44 +4,15 @@
 #THzCAI
 #09 June 2015
 
-import math
-from PIL import Image, ImageDraw
-import os
-import subprocess
-
-#checks if the number is a power of 2
-#required for Hadamard matrices
-#not even necessary but I'm keeping this method because I don't wnat to delete it
-def modCheck(n):
-    x = n
-    if n == 0:
-        return False
-    elif n == 1:
-        return False
-    elif n == 2:
-        return True
-    elif n % 2 != 0:
-        return False
-    elif n % 2 == 0:
-        x = n / 2
-        return modCheck(x)
-
-#gets every string in a list and returns it as one long string
-#will be used to store the full matrix in the final list
-def getMatrix(li):
-    string = ""
-    for x in range(0, len(li)):
-        string += li[x]
-    return string
 
 #simply turn 0's to 1's and vice versa
 def inverse(s):
     string = ""
     for x in range(0, len(s)):
-        if s[x] == '0':
+        if s[x] == '-':
             string += '1'
         else:
-            string += '0'
+            string += '-'
     return string
    
 #rotating the h matrix to create the different combos 
@@ -108,10 +79,8 @@ def hadamard(n, o, rlist):
         if len(rlist[x]) < l:
                counter += 1 
     del rlist[0:counter]
-    
     return rlist
     
-  
      
      
 
