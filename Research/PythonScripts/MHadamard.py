@@ -61,10 +61,8 @@ def shift(s, n):
 #'o' should be '111-' or some permutation on the initial call
 #'n' is depth of recursion 0 = nothing 1 = 2x2 2 = 4x4 etc...
 def hadamard(n, o, rlist):
-    
     if n == 0:
-        return rlist
-        
+        return rlist  
     rlist.append(o)
     s = ""
     s += o
@@ -72,7 +70,6 @@ def hadamard(n, o, rlist):
     s += o
     s += inverse(o)
     rlist = hadamard(n - 1, s, rlist)
-    
     o = shift(o, 1)
     rlist.append(o)
     s = ""
@@ -81,7 +78,6 @@ def hadamard(n, o, rlist):
     s += o
     s += inverse(o)
     rlist = hadamard(n - 1, s, rlist)
-    
     o = shift(o, 2)
     rlist.append(o)
     s = ""
@@ -90,7 +86,6 @@ def hadamard(n, o, rlist):
     s += o
     s += inverse(o)
     rlist = hadamard(n - 1, s, rlist)
-    
     o = shift(o, 3)
     rlist.append(o)
     s = ""
@@ -99,9 +94,7 @@ def hadamard(n, o, rlist):
     s += o
     s += inverse(o)
     rlist = hadamard(n - 1, s, rlist)
-    
     rlist.sort(key = len)
-    
     #delete all combos that are not MxM (the smaller ones)
     counter = 0
     for x in range(0, len(rlist)):
@@ -109,7 +102,6 @@ def hadamard(n, o, rlist):
         if len(rlist[x]) < l:
                counter += 1 
     del rlist[0:counter]
-    
     return rlist 
 
 #draw the Hadamard Matrix recursively
