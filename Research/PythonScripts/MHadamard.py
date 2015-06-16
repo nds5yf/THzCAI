@@ -4,8 +4,6 @@
 #THzCAI
 #09 June 2015
 
-<<<<<<< HEAD
-=======
 import math
 from PIL import Image, ImageDraw
 import os
@@ -37,7 +35,6 @@ def getMatrix(li):
     for x in range(0, len(li)):
         string += li[x]
     return string
->>>>>>> a53352d56c6a5d86b00940fade552cb6e9deb74c
 
 #simply turn -'s to 1's and vice versa
 def inverse(s):
@@ -105,18 +102,7 @@ def hadamard(n, o, rlist):
         if len(rlist[x]) < l:
                counter += 1 
     del rlist[0:counter]
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
     return rlist
-    
-     
-     
-=======
-    
->>>>>>> 3f10e3dfc08c49886a273a7392f78114b5e9a4af
-    return rlist 
->>>>>>> a53352d56c6a5d86b00940fade552cb6e9deb74c
 
 #draw the Hadamard Matrix recursively
 #'matrix' is the string to be converted to an image
