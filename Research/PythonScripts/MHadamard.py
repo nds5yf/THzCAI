@@ -129,10 +129,11 @@ def drawH(matrix, canvasSize, x, y, n, im):
         drawH(s3, canvasSize, x, y + canvasSize / n, 2 * n, im)
         drawH(s4, canvasSize, x + canvasSize / n, y + canvasSize / n, 2 * n, im) 
  
-       
+'''       
 white = (255, 255, 255)      
 image = Image.new("RGB", (1024, 1024), white)
 draw = ImageDraw.Draw(image)
 matrix0 = hadamard(input("input: "), '111-', [])[0]
 drawH(matrix0, 1024, 0, 0, 2, draw)
 image.save('mask.PNG') 
+'''

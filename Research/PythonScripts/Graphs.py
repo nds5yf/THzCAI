@@ -12,7 +12,7 @@ from matplotlib.pyplot import *
 
 #this code may be taxing on your CPU if there ae a lot of data folders
 
-dir1 = 'auto3x3'
+dir1 = 'temp'
 
 folders = os.listdir(dir1)
 
@@ -21,7 +21,7 @@ os.chdir(dir1)
 for x in range(0, len(folders)):
     
     DIR = folders[x]
-    
+    f = open("sParams.txt", "w")
     substrate_thickness = 430e-6 # needed to re-embed measurements to reference plane
 
     delta = 40*micron
@@ -34,6 +34,9 @@ for x in range(0, len(folders)):
      #+[air.match(name = 'pl')] #add for pl files
     cal = rf.Calibration(measured = raw.values(), ideals = ideals, sloppy_input=True)
 
+    f.write(str(cal.error_ntwk.s))
+    f.close()
+
     figure()
     rf.NS(cal.caled_ntwks).plot_s_smith(marker ='.', ls='');
     title('Bingo Baby!')
@@ -43,7 +46,6 @@ for x in range(0, len(folders)):
     os.chdir('..')
     pylab.close()
 
-'''
     figure()
     title('Delay Shorts Magnitude')
     rf.NS(cal.caled_ntwks).plot_s_db();
@@ -73,8 +75,8 @@ for x in range(0, len(folders)):
     pylab.savefig('figure4.PNG')
     os.chdir('..')
     pylab.close()
-'''
+
     #pylab.show()
 os.chdir('..')
 
-#throws an error at the end for some reason
+#throws an error at the end for any extra files at the end of the directory
