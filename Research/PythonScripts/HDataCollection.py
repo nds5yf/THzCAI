@@ -25,6 +25,7 @@ esp.units= 'millimeter'
 
 x = input("input: ")
 Hlist = mh.hadamard(x, '111-', [])
+mh.getHText(x, '111-')
 white = (255, 255, 255)
 
 for i in range(0, len(Hlist)):

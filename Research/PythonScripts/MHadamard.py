@@ -127,8 +127,29 @@ def drawH(matrix, canvasSize, x, y, n, im):
         drawH(s1, canvasSize, x, y, 2 * n, im)
         drawH(s2, canvasSize, x + canvasSize / n, y, 2 * n, im)
         drawH(s3, canvasSize, x, y + canvasSize / n, 2 * n, im)
-        drawH(s4, canvasSize, x + canvasSize / n, y + canvasSize / n, 2 * n, im) 
+        drawH(s4, canvasSize, x + canvasSize / n, y + canvasSize / n, 2 * n, im)
  
+#save text file of all the matrices in current directory
+#'n' and 'o' are the same as in hadamard()       
+def getHText(n, o):
+    f = open("matrices.txt", "w")
+    hlist = hadamard(n, o, [])
+    f.write("These matrices are drawn in units of four recursively. Top left," +
+"\n top right, bottom left, then bottom right. \n")
+    for matrix in hlist:
+        f.write(matrix + '\n')
+    f.close()
+
+#make the strings readable by our draw loop in RealSlideGeneration
+#'slist' is the list of 1's and -1's
+def convert(string):
+    size = len(string)
+    if size == 4:
+        return 0
+    else:
+        s1 = string[:size / 2]
+        s2 = string[size / 2:]
+    
 '''       
 white = (255, 255, 255)      
 image = Image.new("RGB", (1024, 1024), white)

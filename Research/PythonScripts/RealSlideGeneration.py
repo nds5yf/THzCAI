@@ -13,7 +13,7 @@ import subprocess
 #Generate binary combinations: all representations of an NxN matrix
 # represented as a binary string in the list 'li'
 x = input("input the matrix dimension: ")
-area = x * x
+area = x*x
 size = math.pow(2, area)
 
 bn = '{0:0' + str(area) + 'b}'
