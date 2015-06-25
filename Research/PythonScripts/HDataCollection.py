@@ -53,27 +53,27 @@ for i in range(0, len(Hlist)):
     my_vna.s11.write_touchstone('ds,0')
     time.sleep(1)
     
-    esp.position = -0.04
+    esp.position = 0.04
     time.sleep(0.5)
     my_vna.s11.write_touchstone('ds,1')
     time.sleep(1)
 
-    esp.position = -0.08
+    esp.position = 0.08
     time.sleep(0.5)
     my_vna.s11.write_touchstone('ds,2')
     time.sleep(1)
     
-    esp.position = -0.12
+    esp.position = 0.12
     time.sleep(0.5)
     my_vna.s11.write_touchstone('ds,3')
     time.sleep(1)
     
-    esp.position = -0.16
+    esp.position = 0.16
     time.sleep(0.5) 
     my_vna.s11.write_touchstone('ds,4')
     time.sleep(1)
     
-    esp.position = -0.20
+    esp.position = 0.20
     time.sleep(0.5)
     my_vna.s11.write_touchstone('ds,5')
     time.sleep(1)

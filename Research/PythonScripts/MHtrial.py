@@ -6,6 +6,8 @@ import subprocess
 import time
 
 
+#example of how to use the hadamard function
+
 x = input("input: ")
 Hlist = mh.hadamard(x, '111-', [])
 white = (255, 255, 255)
