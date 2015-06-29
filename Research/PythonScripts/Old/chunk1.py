@@ -9,7 +9,7 @@ import matplotlib.pyplot
 from matplotlib.pyplot import *
 
 ## input 
-dir ='Cal' 
+dir ='0' 
 write_caled_duts= True
 
 substrate_thickness = 430e-6 # needed to re-embed measurements to reference plane
