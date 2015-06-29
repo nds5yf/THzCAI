@@ -1,2 +1,0 @@
-This data was collected manually. Since there were over 500 matrices, the data collection process was very time consuming.
-The next step is now to automate the process using the code in DataCollection.py. (Author: Michael Eller)
