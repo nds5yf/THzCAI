@@ -158,7 +158,7 @@ def shift(s, n):
 	for i in range(0, n):
 		x = len(temp)/4
 		l = len(temp)
-		string = temp[1 - x:] +temp[:1 - x]
+		string = temp[l - x:] +temp[:l - x]
 		temp = string
 	return string
 
@@ -206,7 +206,7 @@ def createH(n, o, rlist):
 		l = len(rlist[len(rlist) - 1])
 		if len(rlist[x]) < l:
 			counter += 1
-	del rlist[0:counter]
+	del rlist[0 : counter]
 	return rlist
 
 #draw the Hadamard Matrix recursively
@@ -230,7 +230,7 @@ def drawH(matrix, canvasSize, x, y, n, im):
 		s2 = matrix[len(matrix) / 4 : len(matrix) / 2]
 		s3 = matrix[len(matrix) / 2 : 3 * len(matrix) / 4]
 		s4 = matrix[3 * len(matrix) / 4 : len(matrix)]
-		drawH(s1, x, y, 2 * n, im)
-		drawH(s2, x + canvasSize / n, y, 2 * n, im)
-		drawH(s3, x, y + canvasSize / n, 2 * n, im)
-		drawH(s4, x + canvasSize, y + canvasSize, 2 * n, im)
+		drawH(s1, canvasSize, x, y, 2 * n, im)
+		drawH(s2, canvasSize, x + canvasSize / n, y, 2 * n, im)
+		drawH(s3, canvasSize, x, y + canvasSize / n, 2 * n, im)
+		drawH(s4, canvasSize, x + canvasSize / n, y + canvasSize / n, 2 * n, im)

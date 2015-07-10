@@ -12,7 +12,7 @@ from matplotlib.pyplot import *
 
 #this code may be taxing on your CPU if there ae a lot of data folders
 
-dir1 = 'temp2'
+dir1 = 'test'
 
 folders = os.listdir(dir1)
 
