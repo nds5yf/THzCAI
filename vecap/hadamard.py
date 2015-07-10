@@ -3,12 +3,15 @@
 #9 July 2015
 
 import skrf as rf
-import os
+from skrf import micron
+import os, os.path
 import devices as dev
 from PIL import Image, ImageDraw
 import subprocess
 import math
 import time as time
+import pylab
+from matplotlib.pyplot import *
 
 class Hadamard(object):
 	def __init__(self, dimension, canvasSize):
@@ -25,17 +28,21 @@ class Hadamard(object):
 		self.dimension = dimension
 		self.canvasSize = canvasSize
 		self.matrixList = createH(dimension,'111-', [])
+		self.esp = dev.ESP()
+		self.zva = dev.ANA()
 
 	def writeHText(self, o = '111-'):
-		n = self.dimension
-		f = open("matrices.txt", "w")
-		f.write("These matrices are drawn in units of four recursively. Top left," + 
-			"\n top right, bottom left, then bottom right. \n")
+		f = open("matrices_rec.txt", "w")
 		for matrix in self.matrixList:
 			f.write(matrix + '\n')
 		f.close()
+		f = open("matrices.txt", "w")
+		temp = self.recursion_fix()
+		for matrix in temp:
+			f.write(matrix + '\n')
+		f.close()
 
-	def xcoor(n, li, x):
+	def xcoor(self, n, li, x):
 		if n == 0:
 			return li
 		else:
@@ -45,9 +52,9 @@ class Hadamard(object):
 				temp[i] = temp[i] + dif
 			li = li + temp
 			li = li + li
-			return xcoor(n-1, li, x+1)
+			return self.xcoor(n-1, li, x+1)
 
-	def ycoor(n, li, x):
+	def ycoor(self, n, li, x):
 		if n == 0:
 			return li
 		else:
@@ -57,15 +64,15 @@ class Hadamard(object):
 			for i in range (0, len(li)):
 				temp[i] = temp[i] + dif
 			li = li + temp
-			return ycoor(n-1, li, x+1)
+			return self.ycoor(n-1, li, x+1)
 
 	def recursion_fix(self):
 		li = self.matrixList    
 		n = len(li) #Area and pixel count
 		w = int(math.sqrt(n)) #Length and width, dimension
 		b = self.dimension
-		xloc = xcoor(b, [0], 0)
-		yloc = ycoor(b, [0], 0)
+		xloc = self.xcoor(b, [0], 0)
+		yloc = self.ycoor(b, [0], 0)
 		final = []
 		for i in range (0, n):
 			combo = li[i]
@@ -82,15 +89,14 @@ class Hadamard(object):
 		#move method will occasionally throw a timeout error
 		#the first time it's called, so this will get that
 		#out of the way before you start imaging
-		esp = dev.ESP()
-		esp.move(0)
-		print esp.current_position()
-		esp.move(1)
-		print esp.current_position()
+		self.esp.move(0)
+		print self.esp.current_position()
+		self.esp.move(1)
+		print self.esp.current_position()
+		self.esp.move(0)
+		print self.esp.current_position()
 
 	def take_image(self):
-		na = dev.ANA()
-		esp = dev.ESP()
 		white = (255, 255, 255)
 		hlist = self.matrixList
 		size = self.canvasSize
@@ -113,23 +119,64 @@ class Hadamard(object):
 			os.makedirs(str(i))
 			os.chdir(str(i))
 
-			esp.move(0)
-			na.write_data('ds,0')
-			esp.move(0.04)
-			na.write_data('ds,1')
-			esp.move(0.08)
-			na.write_data('ds,2')
-			esp.move(0.12)
-			na.write_data('ds,3')
-			esp.move(0.16)
-			na.write_data('ds,4')
-			esp.move(0.20)
-			na.writeHText('ds,5')
-			esp.move(0)
+			self.esp.move(0)
+			self.zva.write_data('ds,0')
+			self.esp.move(0.04)
+			self.zva.write_data('ds,1')
+			self.esp.move(0.08)
+			self.zva.write_data('ds,2')
+			self.esp.move(0.12)
+			self.zva.write_data('ds,3')
+			self.esp.move(0.16)
+			self.zva.write_data('ds,4')
+			self.esp.move(0.20)
+			self.zva.write_data('ds,5')
+			self.esp.move(0)
 
 			os.chdir("..")
 			os.system("taskkill /im dllhost.exe")
 			time.sleep(1)
+
+	def calibrate(self):
+		DIR = 'cal'
+		os.makedirs(DIR)
+		os.chdir(DIR)
+		self.esp.move(0)
+		self.zva.write_data('ds,0')
+		self.esp.move(0.04)
+		self.zva.write_data('ds,1')
+		self.esp.move(0.08)
+		self.zva.write_data('ds,2')
+		self.esp.move(0.12)
+		self.zva.write_data('ds,3')
+		self.esp.move(0.16)
+		self.zva.write_data('ds,4')
+		self.esp.move(0.20)
+		self.zva.write_data('ds,5')
+		self.esp.move(0)
+		#save the smith plot and s params!
+		os.chdir('..')
+		'''
+		#f = open("sParams.txt", "w")
+		substrate_thickness = 430e-6 # needed to re-embed measurements to reference plane
+		delta = 40*micron
+		raw = rf.lat(DIR)
+		freq = raw.values()[0].frequency
+		air = rf.media.Freespace(frequency = freq, z0=50)
+		ideals = [ air.delay_short(k*delta, name='ds,%i'%k) for k in range(6)]
+		#+[air.match(name = 'pl')] #add for pl files
+		cal = rf.Calibration(measured = raw.values(), ideals = ideals, sloppy_input=True)
+		#f.write(str(cal.error_ntwk.s))
+		#f.close()
+		figure()
+		rf.NS(cal.caled_ntwks).plot_s_smith(marker ='.', ls='')
+		title('Bingo Baby!')
+		rf.legend_off()
+		os.chdir(DIR)
+		pylab.savefig('figure1.PNG')
+		pylab.close()
+		os.chdir('..')
+		'''
 
 #simply turn -'s to 1's and vice versa
 def inverse(s):

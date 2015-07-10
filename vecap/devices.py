@@ -37,10 +37,11 @@ class ESP(object):
 
 		#assumes only one resource
 		self.inst = rm.open_resource(rm.list_resources()[0])
+		self.inst.timeout = 25000
 		print(self.inst.query("*IDN?"))
 
 	def current_position(self):
-		
+
 		return float(self.inst.ask('1TP'))
 
 	def move(self, x):
@@ -48,6 +49,7 @@ class ESP(object):
 			return
 		else:
 			self.inst.write('1PA'+ numpy.str(x))
-		while float(self.inst.ask('1TP')) - x != 0:
-			time.sleep(0.01)
+			while float(self.inst.ask('1MD?')) < 1:
+				time.sleep(0.5)
+
 
