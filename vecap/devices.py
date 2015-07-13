@@ -3,11 +3,11 @@
 #9 July 2015
 
 import visa
-from skrf.vi import vna
+from skrf.vi.vna import ZVA40
 import numpy
 import time as time
 
-class ANA(object):
+class ZVA(ZVA40):
 	def __init__(self):
 		'''
 		A class to easily take and write data with the vna
@@ -16,13 +16,11 @@ class ANA(object):
 			vna object from skrf.vi (zva)
 
 		'''
-
+		ZVA40.__init__(self, address = 20)
 		#you will want the ZVA to be connected when you initialize
-		self.zva = vna.ZVA40(address=20)
-
 	def write_data(self,name):
 
-		self.zva.get_network().write_touchstone(name)
+		self.get_network().write_touchstone(name)
 
 class ESP(object):
 	def __init__(self):
