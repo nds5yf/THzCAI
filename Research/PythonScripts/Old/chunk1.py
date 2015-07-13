@@ -1,10 +1,6 @@
 import skrf as rf
 from skrf import micron
 import pylab
-#from os.path import join 
-import skrf as rf
-from skrf import micron
-#import pylab
 import matplotlib.pyplot
 from matplotlib.pyplot import *
 
