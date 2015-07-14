@@ -90,11 +90,8 @@ class Hadamard(object):
 		#the first time it's called, so this will get that
 		#out of the way before you start imaging
 		self.esp.move(0)
-		print self.esp.current_position()
 		self.esp.move(1)
-		print self.esp.current_position()
 		self.esp.move(0)
-		print self.esp.current_position()
 
 	def take_image(self):
 		white = (255, 255, 255)

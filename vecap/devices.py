@@ -42,4 +42,3 @@ class ESP(ESP300):
 	def move(self, x):
 		self.position = x
 		self.wait_for_stop()
-
