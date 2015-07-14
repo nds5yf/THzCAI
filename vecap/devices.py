@@ -4,6 +4,7 @@
 
 import visa
 from skrf.vi.vna import ZVA40
+from skrf.vi.stages import ESP300
 import numpy
 import time as time
 
@@ -22,7 +23,7 @@ class ZVA(ZVA40):
 
 		self.get_network().write_touchstone(name)
 
-class ESP(object):
+class ESP(ESP300):
 	def __init__(self):
 		'''
 		A class to control the ESP300 motor driver
@@ -31,21 +32,14 @@ class ESP(object):
 			visa instrument object
 			current position
 		'''
-		rm = visa.ResourceManager()
-
+		#rm = visa.ResourceManager()
 		#assumes only one resource
-		self.inst = rm.open_resource(rm.list_resources()[0])
-		print(self.inst.query("*IDN?"))
+		#self.inst = rm.open_resource(rm.list_resources()[0])
+		#print(self.inst.query("*IDN?"))
 
-	def current_position(self):
-		
-		return float(self.inst.ask('1TP'))
+		ESP300.__init__(self, address = 1, current_axis = 1, always_wait_for_stop=True, delay = 0.1)
 
 	def move(self, x):
-		if self.current_position == x:
-			return
-		else:
-			self.inst.write('1PA'+ numpy.str(x))
-		while float(self.inst.ask('1TP')) - x != 0:
-			time.sleep(0.01)
+		self.position = x
+		self.wait_for_stop()
 
