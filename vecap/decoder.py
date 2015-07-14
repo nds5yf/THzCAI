@@ -157,12 +157,3 @@ class Decoder(object):
             if clims is not None:
                 plt.clim(clims)
         return interactive (func,n =(0,len(freq)) )
-        
-    
-    
-    
-    
-
-    
-
-

@@ -93,7 +93,7 @@ class Hadamard(object):
 		self.esp.move(1)
 		self.esp.move(0)
 
-	def take_image(self):
+	def take_cal(self):
 		white = (255, 255, 255)
 		hlist = self.matrixList
 		size = self.canvasSize
@@ -133,47 +133,14 @@ class Hadamard(object):
 			os.system("taskkill /im dllhost.exe")
 			time.sleep(1)
 
-	def calibrate(self):
-		DIR = 'cal'
+	def take_image(self):
+		DIR = 'obj'
 		os.makedirs(DIR)
 		os.chdir(DIR)
 		self.esp.move(0)
-		self.zva.write_data('ds,0')
-		self.esp.move(0.04)
-		self.zva.write_data('ds,1')
-		self.esp.move(0.08)
-		self.zva.write_data('ds,2')
-		self.esp.move(0.12)
-		self.zva.write_data('ds,3')
-		self.esp.move(0.16)
-		self.zva.write_data('ds,4')
-		self.esp.move(0.20)
-		self.zva.write_data('ds,5')
-		self.esp.move(0)
+		self.zva.write_data('object')
 		#save the smith plot and s params!
 		os.chdir('..')
-		#does not work with new version of skrf
-		'''
-		#f = open("sParams.txt", "w")
-		substrate_thickness = 430e-6 # needed to re-embed measurements to reference plane
-		delta = 40*micron
-		raw = rf.lat(DIR)
-		freq = raw.values()[0].frequency
-		air = rf.media.Freespace(frequency = freq, z0=50)
-		ideals = [ air.delay_short(k*delta, name='ds,%i'%k) for k in range(6)]
-		#+[air.match(name = 'pl')] #add for pl files
-		cal = rf.Calibration(measured = raw.values(), ideals = ideals, sloppy_input=True)
-		#f.write(str(cal.error_ntwk.s))
-		#f.close()
-		figure()
-		rf.NS(cal.caled_ntwks).plot_s_smith(marker ='.', ls='')
-		title('Bingo Baby!')
-		rf.legend_off()
-		os.chdir(DIR)
-		pylab.savefig('figure1.PNG')
-		pylab.close()
-		os.chdir('..')
-		'''
 
 	def rename_folders(self, base_dir):
 		matrixList = self.recursion_fix()
