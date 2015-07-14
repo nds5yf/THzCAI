@@ -29,7 +29,7 @@ class Hadamard(object):
 		self.canvasSize = canvasSize
 		self.matrixList = createH(dimension,'111-', [])
 		self.esp = dev.ESP()
-		self.zva = dev.ANA()
+		self.zva = dev.ZVA()
 
 	def writeHText(self, o = '111-'):
 		f = open("matrices_rec.txt", "w")
@@ -67,34 +67,32 @@ class Hadamard(object):
 			return self.ycoor(n-1, li, x+1)
 
 	def recursion_fix(self):
-		li = self.matrixList    
+		li = self.matrixList
 		n = len(li) #Area and pixel count
-		w = int(math.sqrt(n)) #Length and width, dimension
-		b = self.dimension
+		w = int(math.sqrt(n)) #Length and width
+		b = self.dimension #Times of iteration
 		xloc = self.xcoor(b, [0], 0)
 		yloc = self.ycoor(b, [0], 0)
 		final = []
 		for i in range (0, n):
 			combo = li[i]
-			temp = []
+			temp = [0]*n
 			temp2 = ""
 			for j in range(0, n):
-				temp.insert((xloc[j] + w*yloc[j]), combo[j])
+				tot = xloc[j] + w*yloc[j]
+				temp[tot] = combo[j]
 			for j in range(0, len(temp)):    
 				temp2 = temp2 + temp[j]
 			final.append(temp2)
-		return final    
+		return final     
 
 	def pre_start(self):
 		#move method will occasionally throw a timeout error
 		#the first time it's called, so this will get that
 		#out of the way before you start imaging
 		self.esp.move(0)
-		print self.esp.current_position()
 		self.esp.move(1)
-		print self.esp.current_position()
 		self.esp.move(0)
-		print self.esp.current_position()
 
 	def take_image(self):
 		white = (255, 255, 255)

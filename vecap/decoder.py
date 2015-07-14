@@ -27,8 +27,7 @@ class Decoder(object):
         self.base_dir = Path( base_dir)
         # determine rank 
         max_dec = max([int(d) for d in self.decs.keys()])
-        #self.rank = int(sqrt(len('{0:b}'.format(max_dec))))
-        self.rank = 8
+        self.rank = int(sqrt(len('{0:b}'.format(max_dec))))
         self.frequency = rf.ran(str(self.decs.values()[0])).values()[0].frequency
     
     @property
