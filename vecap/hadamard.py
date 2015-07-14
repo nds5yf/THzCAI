@@ -29,7 +29,7 @@ class Hadamard(object):
 		self.canvasSize = canvasSize
 		self.matrixList = createH(dimension,'111-', [])
 		self.esp = dev.ESP()
-		self.zva = dev.ANA()
+		self.zva = dev.ZVA()
 
 	def writeHText(self, o = '111-'):
 		f = open("matrices_rec.txt", "w")
@@ -90,11 +90,8 @@ class Hadamard(object):
 		#the first time it's called, so this will get that
 		#out of the way before you start imaging
 		self.esp.move(0)
-		print self.esp.current_position()
 		self.esp.move(1)
-		print self.esp.current_position()
 		self.esp.move(0)
-		print self.esp.current_position()
 
 	def take_image(self):
 		white = (255, 255, 255)
@@ -119,7 +116,6 @@ class Hadamard(object):
 			os.makedirs(str(i))
 			os.chdir(str(i))
 
-			self.esp.move(0)
 			self.zva.write_data('ds,0')
 			self.esp.move(0.04)
 			self.zva.write_data('ds,1')
@@ -156,6 +152,7 @@ class Hadamard(object):
 		self.esp.move(0)
 		#save the smith plot and s params!
 		os.chdir('..')
+		#does not work with new version of skrf
 		'''
 		#f = open("sParams.txt", "w")
 		substrate_thickness = 430e-6 # needed to re-embed measurements to reference plane
@@ -177,6 +174,12 @@ class Hadamard(object):
 		pylab.close()
 		os.chdir('..')
 		'''
+
+	def rename_folders(self, base_dir):
+		matrixList = self.recursion_fix()
+		os.chdir(base_dir)
+		for x in range(0, len(matrixList)):
+			os.rename(str(x), str(int(format2bn(matrixList[x]), 2)))
 
 #simply turn -'s to 1's and vice versa
 def inverse(s):
