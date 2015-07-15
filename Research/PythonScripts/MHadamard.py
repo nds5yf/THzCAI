@@ -100,7 +100,7 @@ def hadamard(n, o, rlist):
     for x in range(0, len(rlist)):
         l = len(rlist[len(rlist) - 1])
         if len(rlist[x]) < l:
-               counter += 1 
+            counter += 1 
     del rlist[0:counter]
     return rlist
 
@@ -135,20 +135,10 @@ def getHText(n, o):
     f = open("matrices.txt", "w")
     hlist = hadamard(n, o, [])
     f.write("These matrices are drawn in units of four recursively. Top left," +
-"\n top right, bottom left, then bottom right. \n")
+        "\n top right, bottom left, then bottom right. \n")
     for matrix in hlist:
         f.write(matrix + '\n')
     f.close()
-
-#make the strings readable by our draw loop in RealSlideGeneration
-#'slist' is the list of 1's and -1's
-def convert(string):
-    size = len(string)
-    if size == 4:
-        return 0
-    else:
-        s1 = string[:size / 2]
-        s2 = string[size / 2:]
     
 '''       
 white = (255, 255, 255)      

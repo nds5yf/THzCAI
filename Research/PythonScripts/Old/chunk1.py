@@ -1,22 +1,19 @@
 import skrf as rf
 from skrf import micron
 import pylab
-#from os.path import join 
-import skrf as rf
-from skrf import micron
-#import pylab
 import matplotlib.pyplot
 from matplotlib.pyplot import *
+import os
 
 ## input 
-dir ='383' 
+dir ='0' 
 write_caled_duts= True
 
 substrate_thickness = 430e-6 # needed to re-embed measurements to reference plane
 
 ###
 ## my_vna.s11.write_touchstone('pl')
-
+os.chdir('C:/Users/Michael/Desktop/test')
 
 
 delta = 40*micron
@@ -27,7 +24,7 @@ air = rf.media.Freespace(frequency = freq, z0=50)
 
 ideals = [ air.delay_short(k*delta, name='ds,%i'%k) for k in range(6)] +\
          [air.match(name = 'pl')]
-cal = rf.Calibration(measured = raw.values(), ideals = ideals, sloppy_input=True)
+cal = rf.OnePort(measured = raw.values(), ideals = ideals, sloppy_input=True)
 
 figure()
 rf.NS(cal.caled_ntwks).plot_s_smith(marker ='.', ls='');

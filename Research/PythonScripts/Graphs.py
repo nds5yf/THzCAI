@@ -12,7 +12,7 @@ from matplotlib.pyplot import *
 
 #this code may be taxing on your CPU if there ae a lot of data folders
 
-dir1 = 'temp2'
+dir1 = 'test'
 
 folders = os.listdir(dir1)
 
@@ -32,7 +32,7 @@ for x in range(0, len(folders)):
 
     ideals = [ air.delay_short(k*delta, name='ds,%i'%k) for k in range(6)]
      #+[air.match(name = 'pl')] #add for pl files
-    cal = rf.Calibration(measured = raw.values(), ideals = ideals, sloppy_input=True)
+    cal = rf.OnePort(measured = raw.values(), ideals = ideals, sloppy_input=True)
 
     f.write(str(cal.error_ntwk.s))
     f.close()

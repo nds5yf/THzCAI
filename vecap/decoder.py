@@ -1,4 +1,3 @@
-
 import skrf as rf
 from skrf import micron
 from skrf.media import Freespace
@@ -29,8 +28,8 @@ class Decoder(object):
         # determine rank 
         max_dec = max([int(d) for d in self.decs.keys()])
         self.rank = int(sqrt(len('{0:b}'.format(max_dec))))
-        self.frequency = rf.ran(self.decs.values()[0]).values()[0].frequency
         
+        self.frequency = rf.ran(str(self.decs.values()[0])).values()[0].frequency
     
     @property
     def decs(self):
@@ -81,6 +80,7 @@ class Decoder(object):
         '''
         cal = deepcopy(self.cal_template)
         ideals = cal.ideals
+
         if isinstance(dec, tuple):
             # decode the measurements 
             measured =[]
@@ -91,6 +91,7 @@ class Decoder(object):
         else:
             measured = rf.ran(self.decs[dec]).values()
         
+
         cal.measured, cal.ideals = rf.align_measured_ideals(measured,ideals)
         cal.name = str(dec)
         return cal
@@ -114,7 +115,7 @@ class Decoder(object):
         if isinstance(dec, tuple):
             ntwks = [self.raw_ntwk_of(k,name) for k in self.pixel2decs(*dec)]
             return rf.average(ntwks)
-        ntwk = rf.ran(self.decs[dec], contains=name).values()[0]
+        ntwk = rf.ran(str(self.decs[dec]), contains=name).values()[0]
         return ntwk
         
     def cor_ntwk_of(self,dec, name, loc='corrected'):
@@ -177,12 +178,3 @@ class Decoder(object):
             if clims is not None:
                 plt.clim(clims)
         return interactive (func,n =(0,len(freq)) )
-        
-    
-    
-    
-    
-
-    
-
-
