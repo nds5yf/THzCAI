@@ -75,13 +75,24 @@ class Decoder(object):
     
     def cal_of(self,dec):
         '''
-        Calibration for a given mask
+        Calibration for a given mask, or pixel
         '''
         cal = deepcopy(self.cal_template)
         ideals = cal.ideals
-        measured = rf.ran(str(self.decs[dec])).values()
+
+        if isinstance(dec, tuple):
+            # decode the measurements 
+            measured =[]
+            for ideal in ideals:
+                m = self.raw_ntwk_of(dec,ideal.name)
+                measured.append(m)
+            
+        else:
+            measured = rf.ran(self.decs[dec]).values()
+        
+
         cal.measured, cal.ideals = rf.align_measured_ideals(measured,ideals)
-        cal.name = dec
+        cal.name = str(dec)
         return cal
 
     def error_ntwk_of(self,dec):
@@ -106,14 +117,24 @@ class Decoder(object):
         ntwk = rf.ran(str(self.decs[dec]), contains=name).values()[0]
         return ntwk
         
-    def cor_ntwk_of(self,dec, name):
+    def cor_ntwk_of(self,dec, name, loc='corrected'):
         '''
         corrected ntwk for a given mask, or pixel
         '''
         if isinstance(dec, tuple):
-            ntwks = [self.cor_ntwk_of(k,name) for k in self.pixel2decs(*dec)]
-            return rf.average(ntwks)
+            if loc  == 'corrected':
+                # decode in corrected-space
+                ntwks = [self.cor_ntwk_of(k,name) for k in self.pixel2decs(*dec)]
+                return rf.average(ntwks)
+            elif loc =='measured':
+                # decode in measured space
+                m = self.raw_ntwk_of(dec,name)
+                return self.cal_of(dec).apply_cal(m)
+        
+        # correct a measurement for a single mask
         return self.cal_of(dec).apply_cal(self.raw_ntwk_of(dec,name))
+    
+    
     
     def cor_cube(self,name,attr='s_db'):
         '''
@@ -156,12 +177,3 @@ class Decoder(object):
             if clims is not None:
                 plt.clim(clims)
         return interactive (func,n =(0,len(freq)) )
-        
-    
-    
-    
-    
-
-    
-
-
