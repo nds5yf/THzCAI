@@ -37,53 +37,10 @@ class Hadamard(object):
 			f.write(matrix + '\n')
 		f.close()
 		f = open("matrices.txt", "w")
-		temp = self.recursion_fix()
+		temp = recursion_fix(self.dimension, self.matrixList)
 		for matrix in temp:
 			f.write(matrix + '\n')
-		f.close()
-
-	def xcoor(self, n, li, x):
-		if n == 0:
-			return li
-		else:
-			dif = pow(2, x)
-			temp = li[:]
-			for i in range (0, len(li)):
-				temp[i] = temp[i] + dif
-			li = li + temp
-			li = li + li
-			return self.xcoor(n-1, li, x+1)
-
-	def ycoor(self, n, li, x):
-		if n == 0:
-			return li
-		else:
-			dif = pow(2, x)
-			li = li + li
-			temp = li[:]
-			for i in range (0, len(li)):
-				temp[i] = temp[i] + dif
-			li = li + temp
-			return self.ycoor(n-1, li, x+1)
-
-	def recursion_fix(self):
-		li = self.matrixList    
-		n = len(li) #Area and pixel count
-		w = int(math.sqrt(n)) #Length and width, dimension
-		b = self.dimension
-		xloc = self.xcoor(b, [0], 0)
-		yloc = self.ycoor(b, [0], 0)
-		final = []
-		for i in range (0, n):
-			combo = li[i]
-			temp = []
-			temp2 = ""
-			for j in range(0, n):
-				temp.insert((xloc[j] + w*yloc[j]), combo[j])
-			for j in range(0, len(temp)):    
-				temp2 = temp2 + temp[j]
-			final.append(temp2)
-		return final    
+		f.close()    
 
 	def pre_start(self):
 		#move method will occasionally throw a timeout error
@@ -143,7 +100,7 @@ class Hadamard(object):
 		os.chdir('..')
 
 	def rename_folders(self, base_dir):
-		matrixList = self.recursion_fix()
+		matrixList = recursion_fix(self.dimension, self.matrixList)
 		os.chdir(base_dir)
 		for x in range(0, len(matrixList)):
 			os.rename(str(x), str(int(format2bn(matrixList[x]), 2)))
@@ -251,3 +208,46 @@ def drawH(matrix, canvasSize, x, y, n, im):
 		drawH(s2, canvasSize, x + canvasSize / n, y, 2 * n, im)
 		drawH(s3, canvasSize, x, y + canvasSize / n, 2 * n, im)
 		drawH(s4, canvasSize, x + canvasSize / n, y + canvasSize / n, 2 * n, im)
+
+def xcoor(n, li, x):
+	if n == 0:
+		return li
+	else:
+		dif = pow(2, x)
+		temp = li[:]
+		for i in range (0, len(li)):
+			temp[i] = temp[i] + dif
+		li = li + temp
+		li = li + li
+		return xcoor(n-1, li, x+1)
+
+def ycoor(n, li, x):
+	if n == 0:
+		return li
+	else:
+		dif = pow(2, x)
+		li = li + li
+		temp = li[:]
+		for i in range (0, len(li)):
+			temp[i] = temp[i] + dif
+		li = li + temp
+		return ycoor(n-1, li, x+1)
+
+def recursion_fix(dimension, matrixList):
+	li = matrixList    
+	n = len(li) #Area and pixel count
+	w = int(math.sqrt(n)) #Length and width, dimension
+	b = dimension
+	xloc = xcoor(b, [0], 0)
+	yloc = ycoor(b, [0], 0)
+	final = []
+	for i in range (0, n):
+		combo = li[i]
+		temp = []
+		temp2 = ""
+		for j in range(0, n):
+			temp.insert((xloc[j] + w*yloc[j]), combo[j])
+		for j in range(0, len(temp)):    
+			temp2 = temp2 + temp[j]
+		final.append(temp2)
+	return final

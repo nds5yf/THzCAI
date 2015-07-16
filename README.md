@@ -1,5 +1,5 @@
 # THzCAI
-Noah Sauber and Michael Eller
+ Michael Eller and Noah Sauber
 
 This Repo is used to document the vector coded aperture imaging project at the UVa FIR Lab.
 We are working under Dr. Robert Weikle to research and develop a method to produce images using
