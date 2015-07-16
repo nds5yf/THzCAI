@@ -1,0 +1,119 @@
+import numpy as np
+from numpy.linalg import inv
+import os
+import hadamard as had
+from matplotlib import pyplot as plt
+import math
+
+class matrixDec(object):
+	def __init__(self, rank, freq, base_dir):
+		self.rank = rank
+		self.freq = freq
+		self.base_dir = base_dir
+		self.measured = self.make_d_matrix(self.get_re_list())
+		self.masks = self.make_m_matrix()
+		self.image = self.compute_image()
+
+	def get_re_list(self):
+		DIR = os.getcwd()
+		folders = os.listdir(self.base_dir)
+		os.chdir(self.base_dir)
+		relist = []
+		for x in range (0, len(folders)):
+			os.chdir(folders[x])
+			cwd = os.getcwd()
+			relist.append(get_re(self.freq, cwd))
+			os.chdir('..')
+		os.chdir(DIR)
+		return relist
+
+	def get_im_list(self):
+		DIR = os.getcwd()
+		folders = os.listdir(self.base_dir)
+		os.chdir(self.base_dir)
+		imlist = []
+		for x in range (0, len(folders)):
+			cwd = os.getcwd()
+			os.chdir(folders[x])
+			imlist.append(get_im(self.freq, cwd))
+			os.chdir('..')
+		os.chdir(DIR)
+		return imlist
+
+	def make_d_matrix(self, mlist):
+		array = []
+		for matrix in mlist:
+			temp = []
+			temp.append(matrix)
+			array.append(temp)
+		return np.asarray(array)
+
+	def make_m_matrix(self):
+		temp = had.recursion_fix(self.rank, had.createH(self.rank, '111-', []))
+		mlist = []
+		for matrix in temp:
+			mlist.append(had.format2bn(matrix))
+		rlist = []
+		for matrix in mlist:
+			ilist = []
+			for x in range(0, len(matrix)):
+				ilist.append(float(matrix[x]))
+			rlist.append(ilist)
+		return rlist
+
+	def compute_image(self):
+		m1 = np.matrix(self.measured)
+		m2 = inv(np.matrix(self.masks))
+		return np.dot(m2, m1)
+
+	def paint(self):
+		image = np.reshape(self.image, (math.pow(2, self.rank), math.pow(2, self.rank)))
+		plt.imshow(image, cmap='gray', interpolation='nearest', 
+			vmin=np.amin(self.image), vmax=np.amax(self.image))
+		plt.show()
+
+
+
+def get_re(freq, base_dir):
+	DIR = os.getcwd()
+	os.chdir(base_dir)
+	f = open('ds,0.s1p', 'r')
+	line = f.readline()
+	while True:
+		if line[0:3] == str(freq)[0:3]:
+			break
+		line = f.readline()
+	index = 0
+	for c in range(0, len(line)):
+		if line[c] == ' ':
+			index = c
+			break
+	line = line[index + 1:]
+	for c in range(0, len(line)):
+		if line[c] == ' ':
+			index = c
+			break
+	line = line[:index]
+	return float(line)
+
+def get_im(freq, base_dir):
+	DIR = os.getcwd()
+	os.chdir(base_dir)
+	f = open('ds,0.s1p', 'r')
+	line = f.readline()
+	while True:
+		if line[0:3] == str(freq)[0:3]:
+			break
+		line = f.readline()
+	index = 0
+	for c in range(0, len(line)):
+		if line[c] == ' ':
+			index = c
+			break
+	line = line[index + 1:]
+	for c in range(0, len(line)):
+		if line[c] == ' ':
+			index = c
+			break
+	line = line[index + 1:]
+	return float(line)
