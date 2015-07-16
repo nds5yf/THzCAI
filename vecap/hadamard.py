@@ -136,6 +136,7 @@ class Hadamard(object):
 			time.sleep(1)
 
 	def noah_image(self):
+		self.esp.move(0)
 		white = (255, 255, 255)
 		hlist = self.recursion_fix()
 		size = self.canvasSize
