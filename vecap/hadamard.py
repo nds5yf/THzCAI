@@ -67,23 +67,24 @@ class Hadamard(object):
 			return self.ycoor(n-1, li, x+1)
 
 	def recursion_fix(self):
-		li = self.matrixList    
+		li = self.matrixList
 		n = len(li) #Area and pixel count
-		w = int(math.sqrt(n)) #Length and width, dimension
-		b = self.dimension
+		w = int(math.sqrt(n)) #Length and width
+		b = self.dimension #Times of iteration
 		xloc = self.xcoor(b, [0], 0)
 		yloc = self.ycoor(b, [0], 0)
 		final = []
 		for i in range (0, n):
 			combo = li[i]
-			temp = []
+			temp = [0]*n
 			temp2 = ""
 			for j in range(0, n):
-				temp.insert((xloc[j] + w*yloc[j]), combo[j])
+				tot = xloc[j] + w*yloc[j]
+				temp[tot] = combo[j]
 			for j in range(0, len(temp)):    
 				temp2 = temp2 + temp[j]
 			final.append(temp2)
-		return final    
+		return final     
 
 	def pre_start(self):
 		#move method will occasionally throw a timeout error
@@ -129,6 +130,48 @@ class Hadamard(object):
 			self.zva.write_data('ds,5')
 			self.esp.move(0)
 
+			os.chdir("..")
+			os.system("taskkill /im dllhost.exe")
+			time.sleep(1)
+
+	def noah_image(self):
+		self.esp.move(0)
+		white = (255, 255, 255)
+		hlist = self.recursion_fix()
+		size = self.canvasSize
+		for i in range(0, len(hlist)):
+			image = Image.new("RGB", (size, size), white)
+			draw = ImageDraw.Draw(image)
+			matrix = hlist[i]
+			
+			paintH(matrix, size, draw)
+
+			#start collecting data!
+			image.save("mask.png")
+			time.sleep(0.5)
+			del image
+			os.startfile('mask.png')
+			time.sleep(2)
+			
+			#create files and save data!
+			filename = str(int((format2bn(matrix)), 2))
+			os.makedirs(filename)
+			os.chdir(filename)
+			
+			self.esp.move(0)
+			self.zva.write_data('ds,0')
+			self.esp.move(0.04)
+			self.zva.write_data('ds,1')
+			self.esp.move(0.08)
+			self.zva.write_data('ds,2')
+			self.esp.move(0.12)
+			self.zva.write_data('ds,3')
+			self.esp.move(0.16)
+			self.zva.write_data('ds,4')
+			self.esp.move(0.20)
+			self.zva.write_data('ds,5')
+			self.esp.move(0)
+			
 			os.chdir("..")
 			os.system("taskkill /im dllhost.exe")
 			time.sleep(1)
@@ -284,3 +327,20 @@ def drawH(matrix, canvasSize, x, y, n, im):
 		drawH(s2, canvasSize, x + canvasSize / n, y, 2 * n, im)
 		drawH(s3, canvasSize, x, y + canvasSize / n, 2 * n, im)
 		drawH(s4, canvasSize, x + canvasSize / n, y + canvasSize / n, 2 * n, im)
+
+def paintH(matrix, canvasSize, draw):
+	counter = 0
+	x = len(matrix)
+	z = int(math.sqrt(x))
+	xloc = 0
+	yloc = 0
+	for i in range(0, x):
+		counter += 1
+		if matrix[i] == '1':
+			draw.rectangle(((xloc, yloc), (xloc + canvasSize/z, yloc + canvasSize/z)), fill='black', outline='black')
+		xloc += canvasSize/z
+		if counter == z:
+			counter = 0
+			xloc = 0
+			yloc += canvasSize/z        
+  
