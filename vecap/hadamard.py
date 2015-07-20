@@ -12,6 +12,7 @@ import math
 import time as time
 import pylab
 from matplotlib.pyplot import *
+from skrf.media import Freespace
 
 class Hadamard(object):
 	def __init__(self, dimension, canvasSize):
@@ -50,7 +51,25 @@ class Hadamard(object):
 		self.esp.move(1)
 		self.esp.move(0)
 
-	def take_cal(self):
+	def take_simple_cal(self):
+		self.esp.move(0)
+		time.sleep(1)
+		meas = {}
+		for x in range(0,6):
+			name = 'ds,' +str(x)
+			self.esp.move(0.04*x)
+			n = self.zva.get_network(name = name)
+			meas[name] = n
+		delta = 40
+		freq =rf.N('C:/Users/Noah/Desktop/WIP/test/ds,0.s1p').frequency
+		air = Freespace(frequency = freq, z0=50)
+		meas = rf.ran()
+		ideals = [ air.delay_short(k*delta,'um',name='ds,%i'%k) for k in range(6)]
+		cal_q = rf.OnePort(measured = meas, ideals = ideals, sloppy_input=True, is_reciprocal=False)
+		self.esp.move(0)
+		return cal_q
+
+	def take_H_cal(self):
 		white = (255, 255, 255)
 		hlist = self.matrixList
 		size = self.canvasSize
