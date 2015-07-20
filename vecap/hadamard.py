@@ -61,9 +61,8 @@ class Hadamard(object):
 			n = self.zva.get_network(name = name)
 			meas[name] = n
 		delta = 40
-		freq =rf.N('C:/Users/Noah/Desktop/WIP/test/ds,0.s1p').frequency
+		freq =meas.values()[0].frequency
 		air = Freespace(frequency = freq, z0=50)
-		meas = rf.ran()
 		ideals = [ air.delay_short(k*delta,'um',name='ds,%i'%k) for k in range(6)]
 		cal_q = rf.OnePort(measured = meas, ideals = ideals, sloppy_input=True, is_reciprocal=False)
 		self.esp.move(0)
