@@ -55,6 +55,7 @@ class Hadamard(object):
 		hlist = self.matrixList
 		size = self.canvasSize
 		for i in range(0, len(hlist)):
+			'''
 			image = Image.new("RGB", (size, size), white)
 			draw = ImageDraw.Draw(image)
 			matrix = hlist[i]
@@ -68,7 +69,7 @@ class Hadamard(object):
 			del image
 			os.startfile('mask.png')
 			time.sleep(2)
-
+			'''
 			#create files and save data!
 			os.makedirs(str(i))
 			os.chdir(str(i))

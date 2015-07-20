@@ -16,16 +16,19 @@ dir1 = 'Cal'
 
 folders = os.listdir(dir1)
 
-os.chdir(dir1)
-
 for x in range(0, len(folders)):
     
     DIR = folders[x]
+
+    os.chdir(dir1)
     f = open("sParams.txt", "w")
+    os.chdir('..')
+
     substrate_thickness = 430e-6 # needed to re-embed measurements to reference plane
 
     delta = 40*micron
-    raw= rf.lat(DIR)
+    raw= rf.lat(dir1)
+    os.chdir(dir1)
 
     freq = raw.values()[0].frequency
     air = rf.media.Freespace(frequency = freq, z0=50)
@@ -36,21 +39,26 @@ for x in range(0, len(folders)):
 
     f.write(str(cal.error_ntwk.s))
     f.close()
-
+    
+    a = rf.NS(cal.caled_ntwks)
+    print 'a'
+    print a
+    print 'b'
     figure()
-    rf.NS(cal.caled_ntwks).plot_s_smith(marker ='.', ls='');
+    a.plot_s_smith(marker ='.', ls='');
     title('Bingo Baby!')
     rf.legend_off()
-    os.chdir(DIR)
     pylab.savefig('figure1.PNG')
-    os.chdir('..')
     pylab.close()
 
+    os.chdir('..')
+
+    '''
     figure()
     title('Delay Shorts Magnitude')
     rf.NS(cal.caled_ntwks).plot_s_db();
     ylim(-1,1)
-    os.chdir(DIR)
+    os.chdir(dir1)
     pylab.savefig('figure2.PNG')
     os.chdir('..')
     pylab.close()
@@ -59,7 +67,7 @@ for x in range(0, len(folders)):
     title('Calibration Standards Magnitude')
     rf.NS(cal.caled_ntwks[::-1]).plot_s_db();
     ylim(-60,10)
-    os.chdir(DIR)
+    os.chdir(dir1)
     pylab.savefig('figure3.PNG')
     os.chdir('..')
     pylab.close()
@@ -71,10 +79,11 @@ for x in range(0, len(folders)):
 
     ylim(-20,20);
     title('Delay Shorts De-trended Phase (Port 1)');
-    os.chdir(DIR)
+    os.chdir(dir1)
     pylab.savefig('figure4.PNG')
     os.chdir('..')
     pylab.close()
+    '''
 
     #pylab.show()
 os.chdir('..')
