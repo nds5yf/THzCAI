@@ -67,6 +67,7 @@ class Hadamard(object):
 		ideals = [ air.delay_short(k*delta,'um',name='ds,%i'%k) for k in range(6)]
 		cal_q = rf.OnePort(measured = meas, ideals = ideals, sloppy_input=True, is_reciprocal=False)
 		self.esp.move(0)
+		cal_q.plot_caled_ntwks(ls='', marker='.')
 		return cal_q
 
 	def take_H_cal(self):
