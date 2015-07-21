@@ -15,7 +15,7 @@ from matplotlib.pyplot import *
 from skrf.media import Freespace
 
 class Hadamard(object):
-	def __init__(self, dimension, canvasSize):
+	def __init__(self, *inst_param):
 		'''
 		A class to hold all of the hadamard matrix methods
 
@@ -26,9 +26,22 @@ class Hadamard(object):
 
 		canvasSize: size of the mask image
 		'''
-		self.dimension = dimension
-		self.canvasSize = canvasSize
-		self.matrixList = createH(dimension,'111-', [])
+		self.dimension = 4
+		self.canvasSize = 1024
+		self.matrixList = createH(self.dimension,'111-', [])
+		if inst_param:
+			self.esp = dev.ESP()
+			self.zva = dev.ZVA()
+		else:
+			print "NOTE: GPIB instuments have not been initialized."
+
+	def start_esp(self):
+		self.esp = dev.ESP()
+
+	def start_zva(self):
+		self.zva = dev.ZVA()
+
+	def start_all(self):
 		self.esp = dev.ESP()
 		self.zva = dev.ZVA()
 
@@ -41,15 +54,7 @@ class Hadamard(object):
 		temp = recursion_fix(self.dimension, self.matrixList)
 		for matrix in temp:
 			f.write(matrix + '\n')
-		f.close()    
-
-	def pre_start(self):
-		#move method will occasionally throw a timeout error
-		#the first time it's called, so this will get that
-		#out of the way before you start imaging
-		self.esp.move(0)
-		self.esp.move(1)
-		self.esp.move(0)
+		f.close()
 
 	def take_simple_cal(self):
 		self.esp.move(0)
@@ -124,6 +129,13 @@ class Hadamard(object):
 		os.chdir(base_dir)
 		for x in range(0, len(matrixList)):
 			os.rename(str(x), str(int(format2bn(matrixList[x]), 2)))
+
+	def set_dim(self, dim):
+		self.dimension = dim
+		self.matrixList = createH(dim,'111-', [])
+
+	def set_canvas(self, c):
+		self.canvasSize = c
 
 #simply turn -'s to 1's and vice versa
 def inverse(s):
