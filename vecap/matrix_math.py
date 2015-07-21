@@ -52,12 +52,15 @@ class matrixDec(object):
 		temp = had.recursion_fix(self.rank, had.createH(self.rank, '111-', []))
 		mlist = []
 		for matrix in temp:
-			mlist.append(had.format2bn(matrix))
+			mlist.append(matrix)
 		rlist = []
 		for matrix in mlist:
 			ilist = []
 			for x in range(0, len(matrix)):
-				ilist.append(float(matrix[x]))
+				if matrix[x] == '1':
+					ilist.append(float(matrix[x]))
+				else:
+					ilist.append(-1.)
 			rlist.append(ilist)
 		return rlist
 
