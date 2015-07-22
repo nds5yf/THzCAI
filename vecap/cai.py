@@ -15,7 +15,7 @@ from matplotlib.pyplot import *
 from skrf.media import Freespace
 
 class CAI(object):
-	def __init__(self, dimension = 4, canvasSize = 1024, *inst_param):
+	def __init__(self, dimension = 4, canvasSize = 1024, start = False):
 		'''
 		A class to perform data collection and image creation
 
@@ -29,7 +29,7 @@ class CAI(object):
 		self.dimension = dimension
 		self.canvasSize = canvasSize
 		self.matrixList = createH(self.dimension,'111-', [])
-		if inst_param:
+		if start:
 			self.esp = dev.ESP()
 			self.zva = dev.ZVA()
 		else:
