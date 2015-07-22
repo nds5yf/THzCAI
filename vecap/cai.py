@@ -15,7 +15,7 @@ from matplotlib.pyplot import *
 from skrf.media import Freespace
 
 class CAI(object):
-	def __init__(self, *inst_param):
+	def __init__(self, dimension = 4, canvasSize = 1024, *inst_param):
 		'''
 		A class to perform data collection and image creation
 
@@ -26,8 +26,8 @@ class CAI(object):
 
 		canvasSize: size of the mask image
 		'''
-		self.dimension = 4
-		self.canvasSize = 1024
+		self.dimension = dimension
+		self.canvasSize = canvasSize
 		self.matrixList = createH(self.dimension,'111-', [])
 		if inst_param:
 			self.esp = dev.ESP()
@@ -118,8 +118,28 @@ class CAI(object):
 		os.makedirs(DIR)
 		os.chdir(DIR)
 		self.esp.move(0)
-		self.zva.write_data('object')
-		#save the smith plot and s params!
+		white = (255, 255, 255)
+		hlist = self.matrixList
+		size = self.canvasSize
+		for i in range(0, len(hlist)):
+			image = Image.new("RGB", (size, size), white)
+			draw = ImageDraw.Draw(image)
+			matrix = hlist[i]
+			#start drawing!
+			drawH(matrix, size, 0, 0, 2, draw)
+			#start collecting data!
+			image.save("mask.png")
+			time.sleep(0.5)
+			del image
+			os.startfile('mask.png')
+			time.sleep(2)
+			#create files and save data!
+			os.makedirs(str(i))
+			os.chdir(str(i))
+			self.zva.write_data('object')
+			os.chdir("..")
+			os.system("taskkill /im dllhost.exe")
+			time.sleep(1)
 		os.chdir('..')
 
 	def rename_folders(self, base_dir):
