@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.linalg import inv
 import os
-import hadamard as had
+import cai
 from matplotlib import pyplot as plt
 import math
 
@@ -49,7 +49,7 @@ class matrixDec(object):
 		return np.asarray(array)
 
 	def make_m_matrix(self):
-		temp = had.recursion_fix(self.rank, had.createH(self.rank, '111-', []))
+		temp = cai.recursion_fix(self.rank, cai.createH(self.rank, '111-', []))
 		mlist = []
 		for matrix in temp:
 			mlist.append(matrix)
