@@ -14,10 +14,10 @@ import pylab
 from matplotlib.pyplot import *
 from skrf.media import Freespace
 
-class Hadamard(object):
+class CAI(object):
 	def __init__(self, *inst_param):
 		'''
-		A class to hold all of the hadamard matrix methods
+		A class to perform data collection and image creation
 
 		@Params
 		dimension: resolution of the mask
