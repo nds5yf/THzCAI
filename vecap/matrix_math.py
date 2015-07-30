@@ -11,8 +11,18 @@ class matrixDec(object):
 		self.freq = freq
 		self.base_dir = base_dir
 		self.measured = self.make_d_matrix(self.get_re_list())
+		self.imaginary = self.make_d_matrix(self.get_im_list())
 		self.masks = self.make_m_matrix()
+		self.mag = self.make_d_matrix(self.get_mag_list())
 		self.image = self.compute_image()
+
+	def get_mag_list(self):
+		maglist = []
+		rlist = self.measured
+		ilist = self.imaginary
+		for x in range(0, len(self.measured)):
+			maglist.append(math.sqrt(math.pow(float(rlist[x]), 2) + math.pow(float(ilist[x]), 2)))
+		return maglist
 
 	def get_re_list(self):
 		DIR = os.getcwd()
@@ -65,14 +75,15 @@ class matrixDec(object):
 		return rlist
 
 	def compute_image(self):
-		m1 = np.matrix(self.measured)
+		m1 = np.matrix(self.mag)
 		m2 = inv(np.matrix(self.masks))
 		return np.dot(m2, m1)
 
 	def paint(self):
 		image = np.reshape(self.image, (math.pow(2, self.rank), math.pow(2, self.rank)))
-		plt.imshow(image, cmap='gray', interpolation='nearest', 
-			vmin=np.amin(self.image), vmax=np.amax(self.image))
+		#plt.imshow(image, cmap='gray', interpolation='nearest', 
+			#vmin=np.amin(self.image), vmax=np.amax(self.image))
+		plt.imshow(image, cmap='gray', interpolation='nearest', vmin = 0.015, vmax = 0.02)
 		plt.show()
 
 
@@ -101,7 +112,8 @@ def get_re(freq, base_dir):
 
 def get_im(freq, base_dir):
 	DIR = os.getcwd()
-	os.chdir(base_dir)
+	#os.chdir(base_dir)
+	#print base_dir
 	f = open('ds,0.s1p', 'r')
 	line = f.readline()
 	while True:
