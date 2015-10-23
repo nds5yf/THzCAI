@@ -6,4 +6,4 @@ We are working under Dr. Robert Weikle to research and develop a method to produ
 electromagnetic waves on the scale of 1 THz.
 
 Special Recognition for their contributions to this project:
-Alex Arsenovic, Souheil Nadri, and Henry Bishop
+Alex Arsenovic, Souheil Nadri, and Linli Xie
