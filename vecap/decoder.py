@@ -105,7 +105,7 @@ class Decoder(object):
         '''
         self.base_dir = Path( base_dir)
         self.cal = cal
-                
+        self.cal_each_mask = cal_each_mask
         # determine rank 
         max_dec = max([int(d) for d in self.decs.keys()])
         self.rank = int(sqrt(len('{0:b}'.format(max_dec))))
@@ -126,7 +126,7 @@ class Decoder(object):
     
     
             
-    def pixel2decs(self,m,n, half_on_only=True):
+    def pixel2decs(self,m,n, half_on_only=False):
         '''
         list of the masks which have a given pixel `on`.  
 
@@ -162,7 +162,7 @@ class Decoder(object):
             cal =OnePort.from_coefs(frequency=freq, coefs=coefs)
             return cal
             
-        if not cal_each_mask:
+        if not self.cal_each_mask:
             return self.cal
         else:
             # we want a calibration for each mask, so create the calbration
@@ -205,6 +205,7 @@ class Decoder(object):
             ntwks = [self.raw_ntwk_of(k,name) for k in self.pixel2decs(*dec)]
             return rf.average(ntwks)
         ntwk = rf.ran(str(self.decs[dec]), contains=name).values()[0]
+        
         return ntwk
         
     def cor_ntwk_of(self,dec, name, loc='corrected'):
