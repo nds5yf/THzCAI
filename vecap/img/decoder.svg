@@ -319,9 +319,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6"
-     inkscape:cx="140.99763"
-     inkscape:cy="58.17062"
+     inkscape:zoom="11.2"
+     inkscape:cx="161.52311"
+     inkscape:cy="99.849658"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -471,17 +471,7 @@
          style="font-size:16px;font-weight:normal;-inkscape-font-specification:Bitstream Charter">Space</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 300,84.051744 -66.41625,0 67.02036,33.205146"
-       id="path4666"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 234.97092,84.739017 65.63319,64.871333"
-       id="path4668"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 235.67426,85.434195 65.10842,96.529635"
+       d="m 233.58375,84.069427 65.10842,96.529633"
        id="path4670"
        inkscape:connector-curvature="0" />
     <path
@@ -506,33 +496,13 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 233.57143,148.7587 65.95706,-0.21148"
-       id="path4680"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="M 301.96429,181.96383 233.75,181.11218 c 0.0123,0 66.85411,-31.50183 66.85411,-31.50183"
        id="path4682"
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 234.40377,180.80502 66.48909,-63.54813"
-       id="path4684"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 235.73798,179.52983 300.89286,84.903392"
-       id="path4686"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 236.0898,149.99755 64.31275,-32.27204"
        id="path4688"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 234.82131,148.75469 299.65413,85.807836"
-       id="path4690"
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -603,5 +573,10 @@
          y="217.01205">n<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan3077-7">2</tspan></tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 233.58375,84.069427 66.64954,0.66793"
+       id="path4674-8"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

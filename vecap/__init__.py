@@ -1,3 +1,5 @@
-import decoder
-import devices
-import hadamard
+#import decoder
+
+## requires visa
+#import devices 
+#import hadamard
