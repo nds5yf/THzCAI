@@ -72,9 +72,9 @@ def gen_masks(kind, rank, invert=False):
         raise ValueError('bad kind')
     
 
-def dec_from_rank(kind, rank, invert=False):
+def gen_decs(kind, rank, invert=False):
     '''
-    create a decimal representations for a given kind of mask set and rank
+    generate decimal representations for a given kind of mask set and rank
     
     '''
     masks= had_masks_from_rank(kind=kind, rank=rank, invert=invert)
